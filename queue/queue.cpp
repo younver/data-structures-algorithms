@@ -14,8 +14,8 @@ class Queue{
     public:
 
         Queue(int size){
-            this->front = -1;
-            this->rear = -1;
+            this->front = 0;
+            this->rear = size - 1; // handles initial problem when they set to -1
             this->size = size;
             this->array = (T*) malloc( size * sizeof(T) );
         }
@@ -31,9 +31,11 @@ class Queue{
         void enqueue(T value){
             
             // Handle full case
-            if (this->isFull())
+            if (this->isFull()){
+                std::cout << "~~ can't enqueue: queue is full" << std::endl;
                 return;
-        
+            }
+
             this->rear = (this->rear + 1) % this->size;
             this->array[rear] = value;
             this->count++;
@@ -41,8 +43,10 @@ class Queue{
 
         T dequeue(){
             // Handle empty case
-            if (this->isEmpty())
+            if (this->isEmpty()){
+                std::cout << "~~ can't dequeue: queue is empty" << std::endl;
                 return NULL;
+            }
 
             T item = this->array[this->front];
             this->front = (this->front + 1) % this->size;
@@ -52,26 +56,19 @@ class Queue{
         }
         
         void display(){
-        
-            // Handle empty case
-            if (this->isEmpty()){
-                std::cout << "~~ this queue is empty" << std::endl;
-                return;
-            }
+             std::cout << "queue: ";
+             
+             // Handle empty case
+             if (this->isEmpty()){
+                 std::cout << "is empty" << std::endl << std::endl;
+                 return;
+             }
 
-            // Handle initial case
-            if (this->front == -1){
-                std::cout << "queue: " << this->array[0] << std::endl;
-                return;
-            }
-
-            // TODO
-            std::cout << "queue: ";
-            for (int i=0; i < this->count; i++){
-                int current = (this->front + i) % this->size;
-                std::cout << this->array[current] << ", "; 
-            }
-            std::cout << std::endl;
+             for (int i=0; i < this->count; i++){
+                 int current = (this->front + i) % this->size;
+                 std::cout << this->array[current] << ", "; 
+             }
+             std::cout << std::endl << std::endl;
         }
 };
 
@@ -89,7 +86,6 @@ int main(){
 
     std::cout << "dequeue ~ single case: " << queue->dequeue() << std::endl;
     queue->display();
-
     std::cout << "enqueue ~ default case" << std::endl;
     queue->enqueue(2);
     queue->enqueue(3);
@@ -109,10 +105,10 @@ int main(){
     queue->enqueue(8);
     queue->display();
 
-    std::cout << "dequeue ~ hit empty case: " << queue->dequeue() << std::endl;
-    std::cout << "dequeue ~ hit empty case: " << queue->dequeue() << std::endl;
-    std::cout << "dequeue ~ hit empty case: " << queue->dequeue() << std::endl;
-    std::cout << "dequeue ~ hit empty case: " << queue->dequeue() << std::endl;
+    std::cout << "dequeue ~ default case: " << queue->dequeue() << std::endl;
+    std::cout << "dequeue ~ default case: " << queue->dequeue() << std::endl;
+    std::cout << "dequeue ~ default case: " << queue->dequeue() << std::endl;
+    std::cout << "dequeue ~ default case: " << queue->dequeue() << std::endl;
     std::cout << "dequeue ~ hit empty case: " << queue->dequeue() << std::endl;
     queue->display();
     
