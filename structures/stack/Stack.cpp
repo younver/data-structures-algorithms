@@ -1,10 +1,12 @@
 #include "stack.h"
 #include <iostream>
-
+#include <stdlib.h>
 
 template <typename T>
-Stack<T>::Stack(){
-    top = -1;    
+Stack<T>::Stack(int size){
+    top = -1;
+    this->size = size;
+    array = (T*) malloc( size * sizeof(T) );
 }
 
 template <typename T>
@@ -14,7 +16,7 @@ bool Stack<T>::isEmpty(){
 
 template <typename T>
 bool Stack<T>::isFull(){
-    return top == (MAX-1);
+    return top == (size - 1);
 }
 template <typename T>
 void Stack<T>::push(T value)
@@ -64,34 +66,34 @@ void Stack<T>::display()
 
 int main(){
 
-    Stack<int> stack;
+    Stack<int>* stack = new Stack<int>(5);
 
-    std::cout << "* pop ~ empty case: " << stack.pop() << std::endl;
-    stack.display();
+    std::cout << "* pop ~ empty case: " << stack->pop() << std::endl;
+    stack->display();
 
     std::cout << "* push ~ empty case" << std::endl;
-    stack.push(3);
-    stack.display();
+    stack->push(3);
+    stack->display();
 
-    std::cout << "* pop ~ single case: " << stack.pop() << std::endl;
-    stack.display();
+    std::cout << "* pop ~ single case: " << stack->pop() << std::endl;
+    stack->display();
 
-    std::cout << "* peek ~ empty case: " << stack.peek() << std::endl;
-    stack.display();
+    std::cout << "* peek ~ empty case: " << stack->peek() << std::endl;
+    stack->display();
     
-    stack.push(4);
-    std::cout << "* peek ~ single case: " << stack.peek() << std::endl;
-    stack.display();
+    stack->push(4);
+    std::cout << "* peek ~ single case: " << stack->peek() << std::endl;
+    stack->display();
 
-    stack.push(5);
-    stack.push(6);
-    stack.push(7);
-    std::cout << "* peek ~ multiple case: " << stack.peek() << std::endl;
-    stack.display();
+    stack->push(5);
+    stack->push(6);
+    stack->push(7);
+    std::cout << "* peek ~ multiple case: " << stack->peek() << std::endl;
+    stack->display();
 
 
-    std::cout << "* pop ~ empty case: " << stack.pop() << std::endl;
-    stack.display();
+    std::cout << "* pop ~ empty case: " << stack->pop() << std::endl;
+    stack->display();
 
     return 0;
 }
